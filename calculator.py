@@ -8,7 +8,7 @@ Supports: addition, subtraction, multiplication, division, power, square root
 import math
 import sys
 
-VERSION = "1.0.0"
+VERSION = "2.0.0"
 
 
 def add(a, b):
@@ -16,9 +16,8 @@ def add(a, b):
 
 
 def subtract(a, b):
-    # BUG (found in testing, see TC005): operands are swapped, giving b - a
-    # instead of a - b.
-    return b - a
+    # FIXED in v2.0.0 (was TC005 failure in v1.0.0: returned b - a).
+    return a - b
 
 
 def multiply(a, b):
@@ -26,8 +25,10 @@ def multiply(a, b):
 
 
 def divide(a, b):
-    # BUG (found in testing, see TC007): no guard for division by zero.
-    # This raises an unhandled ZeroDivisionError and crashes the program.
+    # FIXED in v2.0.0 (was TC007 failure in v1.0.0: unhandled crash).
+    # Now returns a graceful error message instead of raising.
+    if b == 0:
+        return "Error: Cannot divide by zero"
     return a / b
 
 
@@ -36,6 +37,9 @@ def power(a, b):
 
 
 def square_root(a):
+    # FIXED in v2.0.0 (was TC011 failure in v1.0.0: unhandled crash).
+    if a < 0:
+        return "Error: Cannot compute square root of a negative number"
     return math.sqrt(a)
 
 
